@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Event {
+  id          String    @id @default(cuid())
+  title       String
+  date        DateTime
+  endDate     DateTime?
+  location    String
+  description String
+  images      String[]
+  featured    Boolean   @default(false)
+  category    String    @default("Encontro")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model GalleryAlbum {
+  id             String    @id @default(cuid())
+  title          String
+  description    String?
+  coverImage     String?
+  images         String[]
+  videos         String[]
+  imageCount     Int       @default(0)
+  folder         String?   @unique
+  cloudinaryId   String?
+  cloudinaryPath String?   @unique
+  albumCreatedAt DateTime?
+  albumUpdatedAt DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  image     String?
+  role      String   @default("user") // "user" | "manager" | "admin"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
